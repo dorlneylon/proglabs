@@ -1,6 +1,6 @@
 package main.moves;
 
-import se.ifmo.ru.pokemon.*;
+import ru.ifmo.se.pokemon.*;
 
 public class SleepPowder extends SpecialMove {
     public SleepPowder() {

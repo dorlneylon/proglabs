@@ -9,7 +9,7 @@ public class Swagger extends SpecialMove {
     @Override
     protected void applySelfEffects(Pokemon p) {
         if (p.getStat(Stat.ATTACK) < 6) {
-            p.setMod(Stat.ATTACK, p.getStat(Stat.ATTACK)+1);
+            p.setMod(Stat.ATTACK, (int)p.getStat(Stat.ATTACK)+1);
             Effect.confuse(p);
         }
     }
