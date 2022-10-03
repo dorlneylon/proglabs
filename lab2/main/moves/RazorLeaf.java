@@ -1,5 +1,4 @@
 package main.moves;
-
 import ru.ifmo.se.pokemon.*;
 
 public class RazorLeaf extends PhysicalMove {

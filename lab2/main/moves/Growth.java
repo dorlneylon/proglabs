@@ -1,7 +1,7 @@
 package main.moves;
 import ru.ifmo.se.pokemon.*;
 
-public class Growth extends SpecialMove {
+public class Growth extends StatusMove {
     public Growth() {}
 
     @Override
