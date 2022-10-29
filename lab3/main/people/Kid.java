@@ -1,7 +1,8 @@
 package main.people;
 import main.people.Person;
+import main.interfaces.DoingNothing;
 
-public class Kid extends Person {
+public class Kid extends Person implements DoingNothing {
     public Kid(String name, int age) {
         super(name, age, "Привет, это я - " + name + "!");
     }

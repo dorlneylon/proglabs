@@ -1,7 +1,8 @@
 package main.people;
 import main.people.Person;
+import main.interfaces.DoingNothing;
 
-public class Bok extends Person {
+public class Bok extends Person implements DoingNothing {
     public Bok(int age) {
         super("Фрекен Бок", age, "Фрекен Бок, а не Freaking Боg.");
     }
