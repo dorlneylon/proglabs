@@ -10,12 +10,25 @@ public class Main {
         Person[] persons = {k, b, q, rr};
 
         for (Person p : persons) test(p);
+
+		testKid(k);
     }
+
+	public static void testKid(Kid p) {
+		Kid TestKid = new Kid("TestKid", 8);
+		
+
+		TestKid.interact(p);
+		p.interact(TestKid);
+		p.play(TestKid);
+		p.play();
+		
+	}
 
     public static void test(Person p) {
         RandMan TestPerson = new RandMan("tester", 15);
         System.out.println(p.toString());
-        p.Greet();
+        p.greet();
         p.showAbility();
         p.showAbility(TestPerson);
         p.goSleep();
@@ -23,10 +36,10 @@ public class Main {
         p.wakeUp();
         System.out.println(p.isSleeping());
 
-		p.Eat(Food.pickRandom());
+		p.eat(Food.pickRandom());
 
-		p.Interact(TestPerson);
-		for (int i = 0; i < 10; ++i) p.Eat(Food.pickRandom());
+		p.interact(TestPerson);
+		for (int i = 0; i < 10; ++i) p.eat(Food.pickRandom());
         System.out.println(p.hashCode());
     }
 }

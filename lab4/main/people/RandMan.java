@@ -14,10 +14,10 @@ public class RandMan extends Person implements AnecAbility {
     }
 	
 	@Override
-	public void Interact(Person p) {
-		Message("Я могу анекдот рассказать ему... А так собственно я ничего не умею, я же просто рандом");
-		SayAnec();
-		p.Message("Ниче не понятно...");
+	public void interact(Person p) {
+		message("Я могу анекдот рассказать ему... А так собственно я ничего не умею, я же просто рандом");
+		sayAnec();
+		p.message("Ниче не понятно...");
 	}
 
     @Override
@@ -26,18 +26,18 @@ public class RandMan extends Person implements AnecAbility {
     }
 
     @Override
-    protected void Ability() {
+    protected void ability() {
         System.out.printf("%s: ", getName());
-        SayAnec();
+        sayAnec();
     }
 
     @Override
-    protected void Ability(Person p) {
-        Message(String.format("А у тебя, %s, спина белая\n", p.getName()));
+    protected void ability(Person p) {
+        message(String.format("А у тебя, %s, спина белая\n", p.getName()));
     }
 
     @Override
-    public void Eat(Food f) {
+    public void eat(Food f) {
         System.out.printf("%s съел %s.Он вообще съест что хочешь.\n", getName(), f.getName());
     }
 

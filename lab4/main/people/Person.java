@@ -22,20 +22,20 @@ public abstract class Person {
     // Герой описывает себя
     public abstract String toString();
 
-    protected abstract void Ability();
+    protected abstract void ability();
 
-	public abstract void Interact(Person p);
+	public abstract void interact(Person p);
     
-    protected abstract void Ability(Person p);
+    protected abstract void ability(Person p);
 
-    public void Greet() {
+    public void greet() {
         System.out.println(greet);
     }
     
-    public abstract void Eat(Food f);
+    public abstract void eat(Food f);
     
-    protected void Message(String smt) {
-        System.out.printf("%s: %s\n\n", this.name, smt);
+    protected void message(String smt) {
+        System.out.printf("%s: %s\n", this.name, smt);
     }
 
     public String getName() {
@@ -56,14 +56,15 @@ public abstract class Person {
 
     public int hashCode() {
         return (237*(name.hashCode()) + age)%(int)(1e9 + 7);
-    }
+    } 
     
-    public void showAbility() {
-        Ability();   
+	public void showAbility() {
+        ability();
     }
-    
+
+
     public void showAbility(Person p) {
-        Ability(p);
+        ability(p);
     }
 
 

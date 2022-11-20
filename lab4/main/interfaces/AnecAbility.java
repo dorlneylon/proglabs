@@ -2,7 +2,7 @@ package main.interfaces;
 import main.enums.Anecdotes;
 
 public interface AnecAbility {
-    public default void SayAnec() {
+    public default void sayAnec() {
         int take = (int)(Math.round(4*Math.random() + 1));
         if (take == 1) System.out.println(Anecdotes.Anec1.anec);
         if (take == 2) System.out.println(Anecdotes.Anec2.anec);

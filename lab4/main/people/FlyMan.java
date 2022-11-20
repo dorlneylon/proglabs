@@ -17,32 +17,32 @@ public class FlyMan extends Person implements AnecAbility {
 	}
 	
 	@Override
-	public void Interact(Person p) {
+	public void interact(Person p) {
 		System.out.printf("%s так накормил(-а) %s, что тот(-а) уже ничего не съест.\n", getName(), p.getName());
 		p.eaten += 6;
 	}
 
     @Override
     public boolean equals(Person comp) {
-		Message("Два дебила с пропеллерами, охренеть.");
+		message("Два дебила с пропеллерами, охренеть.");
 		return super.equals(comp);
 	}
 
     @Override
-    protected void Ability() {
-        if (!sleeps) { System.out.printf("%s:", this.name); SayAnec(); }
+    protected void ability() {
+        if (!sleeps) { System.out.printf("%s:", this.name); sayAnec(); }
         else System.out.println("Спит.");
     }
 
     @Override
-    protected void Ability(Person p) {
+    protected void ability(Person p) {
         if (!isSleeping() && !p.isSleeping()) System.out.printf("%s рассказал анекдот %s.\n", getName(), p.getName());
     }
 
     @Override
-    public void Eat(Food f) {
-        if (!sleeps && this.eaten < 6) { Message("О, еда)"); (this.eaten)++; }
-		else if (!sleeps && this.eaten >= 6) { Message("Я сыт."); }
+    public void eat(Food f) {
+        if (!sleeps && this.eaten < 6) { message("О, еда)"); (this.eaten)++; }
+		else if (!sleeps && this.eaten >= 6) { message("Я сыт."); }
         else System.out.printf("%s спит.\n", this.name);
     }
 
