@@ -44,14 +44,44 @@ public class Woman extends Person implements DoingNothing {
 
     @Override
     protected void Ability(Person hungry) {
-        if (!gone) System.out.printf("%s приготовила тефтели %s\n", getName(), hungry.getName());
-        else System.out.println(this.name + " ушла и вернуться, собственно, не обещала.");
-    }
-    
-    @Override
+		if (!gone) {
+			if (hungry.getAge() < 18) {
+				Message("Я не могу дать " + hungry.getName() + " еды, он слишком маленький!");
+			} else {
+				Food f = Food.pickRandom();
+				Message("Я дала " + hungry.getName() + " " + f.getName() + ".");
+				hungry.Eat(f);
+			}
+		}
+	}
+
+	@Override
+	public void goSleep() {
+		if (!gone) {
+			Message("Я устала, пошла спать.");
+			super.goSleep();
+		}
+	}
+
+	@Override
+	public void wakeUp() {
+		if (!gone) {
+			Message("Я проснулась.");
+			super.wakeUp();
+		}
+	}
+
+	public void goAway() {
+		if (!gone) {
+			Message("Я ушла.");
+			gone = true;
+		}
+	}
+   
+	@Override
     protected void Ability() {
         if (!gone) Message("Я могу приготовить еду, но для этого надо показать, кому.");
-        else System.out.println("Фрекен Бок ушла.");
+        else System.out.printf("%s ушла.\n", getName());
     }
     
 	// TODO: доделать реакцию на еду

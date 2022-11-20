@@ -1,5 +1,5 @@
 package main.people;
-import main.enums.Food;
+import main.enums.*;
 
 public abstract class Person {
     final protected String name, greet;

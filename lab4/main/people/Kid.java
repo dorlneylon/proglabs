@@ -1,12 +1,41 @@
 package main.people;
 import main.people.Person;
-import main.enums.Food;
-import main.interfaces.DoingNothing;
+import main.enums.*;
+import main.interfaces.KidsBusiness;
 
-public class Kid extends Person implements DoingNothing {
+public class Kid extends Person implements KidsBusiness {
     public Kid(String name, int age) {
         super(name, age, "Привет, это я - " + name + "!");
     }
+
+	@Override
+	public void Play(Person... p) {
+		if (!sleeps) {
+			String s = "Я играю с ";
+			for (Person k: p) {
+				if (k.getAge() < 18 && !k.isSleeping()) {
+					s += k.getName() + ", ";
+					k.goSleep();
+				}
+			}
+			s = s.substring(0, s.length() - 2);
+			Message(s + ". А остальные слишком взрослые (или спят)!\n");
+			System.out.println("Дети так устали, что пошли спать.");
+		} else {
+			System.out.println("Дети спят, поэтому не могут играть.");
+		}
+	}
+
+	// TODO: это должно на что-то влиять
+	@Override
+	public void Play() {
+		if (!sleeps) {
+			Toy randt = Toy.pickRandom();
+			Message("Я играю с " + randt.getName() + ".\n");
+		} else {
+			System.out.printf("%s спит, поэтому не может играть.\n", this.name);
+		}
+	}
 
     @Override
     public boolean equals(Person comp) {
@@ -22,7 +51,6 @@ public class Kid extends Person implements DoingNothing {
             else System.out.println("запеканке.");
         } else { System.out.println("Малыш спит."); }
     }    
-   
 
 	@Override
 	public void Interact(Person p) {
@@ -32,20 +60,20 @@ public class Kid extends Person implements DoingNothing {
 			p.Eat(f);
 		} else if (sleeps) { System.out.println("Малыш спит."); } else { Message("Я не буду его будить!"); }
 	}
-
-	/*@Override
-    protected void Ability(Person p) {
-        if (!p.isSleeping() && isSleeping()) {
-			System.out.printf("%s подарил конфетку %s.\n", getName(), p.getName());
-			p.eatFood("конфета");
-		}
-    }*/
 	
-	// TODO: малыш должен уметь что-то еще.
-
 	@Override
 	public void Ability(Person p) {
-
+		if (!sleeps) {
+			if (p.getAge() < 18 && !p.isSleeping()) {
+				System.out.printf("%s показал %s, как играть в %s.\n", getName(), p.getName(), Toy.pickRandom().getName());
+				System.out.printf("%s и %s поиграли и поели вместе.\n", getName(), p.getName());
+				p.Eat(Food.pickRandom());
+				Eat(Food.pickRandom());
+			} else if (p.isSleeping()) { System.out.println("Малыш не хочет будить его."); } else { Message("Он(-а) какой-то(-ая-то) слишком старый(-ая)."); }
+			System.out.printf("Поиграв в новую для %s игру, они поели", p.getName());
+		} else {
+			System.out.println("Малыш спит.");
+		}
 	}
 
     @Override
