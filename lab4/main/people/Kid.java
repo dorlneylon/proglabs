@@ -4,9 +4,22 @@ import main.enums.*;
 import main.interfaces.KidsBusiness;
 
 public class Kid extends Person implements KidsBusiness {
-    public Kid(String name, int age) {
+    Toy[] toys = new Toy[3];
+
+	public Kid(String name, int age) {
         super(name, age, "Привет, это я - " + name + "!");
+		for (int i = 0; i < 3; ++i) toys[i] = Toy.pickRandom();
     }
+
+	public Kid(String name, int age, String greet, Toy[] toys) {
+		super(name, age, greet);
+		if (toys.length < 3) {
+			for (int i = 0; i < toys.length; ++i) this.toys[i] = toys[i];
+			for (int i = toys.length; i < 3; ++i) this.toys[i] = Toy.pickRandom();
+		} else {
+			for (int i = 0; i < 3; ++i) this.toys[i] = toys[i];
+		}
+	}
 
 	@Override
 	public void play(Person... p) {
@@ -26,14 +39,27 @@ public class Kid extends Person implements KidsBusiness {
 		}
 	}
 
-	// TODO: это должно на что-то влиять
 	@Override
 	public void play() {
 		if (!sleeps) {
-			Toy randt = Toy.pickRandom();
-			message("Я играю с " + randt.getName() + ".\n");
+			Toy t = toys[(int)(Math.random()*3)];
+			message("Я играю с этой игрушкой:" + t.getName() + ".\n");
 		} else {
 			System.out.printf("%s спит, поэтому не может играть.\n", this.name);
+		}
+	}
+
+	public void changeToys(Kid k) {
+		if (!sleeps && !k.isSleeping()) {
+			int l1 = (int)(Math.random()*3);
+			int l2 = (int)(Math.random()*3);
+			Toy t = toys[l1];
+			Toy t2 = k.toys[l2];
+			toys[l1] = t2;
+			k.toys[l2] = t;
+			message("Я меняю игрушки с " + k.getName() + ". У него теперь " + t.getName() + ", а у меня " + t2.getName() + ".\n");
+		} else {
+			System.out.printf("%s спит, поэтому не может менять игрушки.\n", this.name);
 		}
 	}
 

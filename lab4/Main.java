@@ -22,7 +22,9 @@ public class Main {
 		p.interact(TestKid);
 		p.play(TestKid);
 		p.play();
-		
+
+		p.changeToys(TestKid);
+		p.play();
 	}
 
     public static void test(Person p) {
