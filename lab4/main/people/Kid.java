@@ -1,24 +1,59 @@
 package main.people;
 import main.people.Person;
 import main.enums.*;
+import main.exceptions.*;
 import main.interfaces.KidsBusiness;
 
 public class Kid extends Person implements KidsBusiness {
     Toy[] toys = new Toy[3];
 
-	public Kid(String name, int age) {
-        super(name, age, "Привет, это я - " + name + "!");
+	public Kid(String name, int age) throws AgeException {
+		super(name, age, "Привет, это я - " + name + "!");
+		if (age > 18 || age < 0) {
+			throw new AgeException("Неподходящий возраст для ребенка!");
+		}
 		for (int i = 0; i < 3; ++i) toys[i] = Toy.pickRandom();
     }
 
-	public Kid(String name, int age, String greet, Toy[] toys) {
+	public Kid(String name, int age, String greet, Toy[] toys) throws AgeException {
 		super(name, age, greet);
+		
+		if (age > 18 || age < 0) {
+			throw new AgeException("Неподходящий возраст для ребенка!");
+		}
 		if (toys.length < 3) {
 			for (int i = 0; i < toys.length; ++i) this.toys[i] = toys[i];
 			for (int i = toys.length; i < 3; ++i) this.toys[i] = Toy.pickRandom();
 		} else {
 			for (int i = 0; i < 3; ++i) this.toys[i] = toys[i];
 		}
+	}
+
+	class Homework {
+		public short tasks_left = 10;
+		public short a,b;
+		public void doArithmetic() {
+			while (tasks_left --> 0) {
+				a = (short) (Math.random() * 50);
+				b = (short) (Math.random() * 50);
+				message(a + " + " + b + " = " + (a + b));
+				message(a + " - " + b + " = " + (a - b));
+				message(a + " * " + b + " = " + (a * b));
+				try {
+				message(a + " / " + b + " = " + (a / b));
+				} catch (ArithmeticException e) {
+					throw new ZeroException();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void doArithmetic() throws Throwable {
+		Homework m = new Homework();
+		m.doArithmetic();
+		message("Я закончил! Фууух, как же я устал. Пойду посплю...");
+		goSleep();
 	}
 
 	@Override

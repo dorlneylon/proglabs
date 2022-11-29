@@ -2,20 +2,37 @@ package main.people;
 import main.people.Person;
 import main.enums.Food;
 import main.interfaces.AnecAbility;
+import main.interfaces.Fan;
+import main.exceptions.AgeException;
 
 public class FlyMan extends Person implements AnecAbility {
     public FlyMan() {
-        super("Карлсон", 999, "Я Карлсон и я живу на крыше! И еще я умею летать! А ты нет, кст.\nК слову, я умею травить анеки, если потребуется.");
+        super("Карлсон", 15, "Я Карлсон и я живу на крыше! И еще я умею летать! А ты нет, кст.\nК слову, я умею травить анеки, если потребуется.");
     }
 
-	public FlyMan(String name, int age, String greet) {
+	public FlyMan(String name, int age, String greet) throws AgeException {
 		super(name, age, greet);
+		if (age < 0 || age > 18) {
+			throw new AgeException("Неподходящий возраст для летающих людей");
+		}	
 	}
 	
 	public FlyMan(String name, int age) {
 		super(name, age, String.format("Я %s, я летаю и травлю байки. Обожаю анекдоты про Штирлица и поручика Ржевского.", name));
 	}
 	
+	Fan fan = new Fan() {
+		@Override
+		public void switchOn() {
+			System.out.printf("%s начал летать на своей перделке.\n", getName());
+		}
+		
+		@Override
+		public void switchOff() {
+			System.out.printf("%s приземлился.\n", getName());
+		}
+	};
+
 	@Override
 	public void interact(Person p) {
 		System.out.printf("%s так накормил(-а) %s, что тот(-а) уже ничего не съест.\n", getName(), p.getName());
@@ -56,5 +73,12 @@ public class FlyMan extends Person implements AnecAbility {
     public int hashCode() {
         return getName().hashCode();
     }
+	
+	public void fly() {
+		fan.switchOn();
+	}
 
+	public void land() {
+		fan.switchOff();
+	}
 }

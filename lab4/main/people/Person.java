@@ -18,8 +18,8 @@ public abstract class Person {
         this.age = age;
         this.greet = greet;
     }
-
-    // Герой описывает себя
+	
+	@Override
     public abstract String toString();
 
     protected abstract void ability();
@@ -54,6 +54,7 @@ public abstract class Person {
         return this.greet;
     }
 
+	@Override
     public int hashCode() {
         return (237*(name.hashCode()) + age)%(int)(1e9 + 7);
     } 

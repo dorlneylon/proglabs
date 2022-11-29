@@ -5,4 +5,6 @@ public interface KidsBusiness {
 	public void play(Person... p);
 	
 	public void play();
+
+	public void doArithmetic() throws Throwable;
 }

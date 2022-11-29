@@ -2,14 +2,22 @@ package main.people;
 import main.people.Person;
 import main.interfaces.DoingNothing;
 import main.enums.Food;
+import main.exceptions.AgeException;
 
 public class Woman extends Person implements DoingNothing {
-    public Woman(String name, int age) {
-        super(name, age, "чзх за что я женщина?");
+    public Woman(String name, int age) throws AgeException {
+        super(name, age, "за что я женщина?");
+		if (age < 18) {
+			throw new AgeException("Возраст взрослой женщины не может быть меньше 18");
+		}
+
     }
 
-	public Woman(String name, int age, String greet) {
+	public Woman(String name, int age, String greet) throws AgeException {
 		super(name, age, greet);
+		if (age < 18) {
+			throw new AgeException("Возраст взрослой женщины не может быть меньше 18");
+		}
 	}
 
 	@Override
@@ -84,14 +92,14 @@ public class Woman extends Person implements DoingNothing {
         else System.out.printf("%s ушла.\n", getName());
     }
     
-	// TODO: доделать реакцию на еду
     @Override
     public void eat(Food f) {
-		if (!gone) {
-			System.out.printf("%s съела %s. Реакция будет допилена позже лол\n", getName(), f.getName());
+		if (!gone && !sleeps && this.eaten < 4) {
+			System.out.printf("%s съела %s. Реакции не будет женщины жоско держут покерфейс лол\n", getName(), f.getName());
 			(this.eaten)++;
-		}
-		else System.out.printf("%s ушла.", getName());
+		} else if (this.eaten >= 4) {
+			message("Я сыта, не буду больше есть.");
+		} else System.out.printf("%s ушла или спит.", getName());
 	}
 
     @Override
@@ -99,7 +107,7 @@ public class Woman extends Person implements DoingNothing {
         return gone ? String.format("%s ушла.", getName()) : String.format("%s: %s", getName(), getGreet());
     }
 
-    public void superPower(Person... p) {
+    public void superPower(Person... p) throws AgeException {
         System.out.printf("%s уложила указанных людей спать, а сама пошла в магазин. Когда вернется - неизвестно.", getName());
         for (Person k:p) {
 			if (!(k.equals(new Woman(this.name, this.age)))) k.goSleep();

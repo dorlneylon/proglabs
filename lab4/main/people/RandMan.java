@@ -2,15 +2,19 @@ package main.people;
 import main.people.Person;
 import main.enums.Food;
 import main.interfaces.AnecAbility;
-
+import main.exceptions.AgeException;
 
 public class RandMan extends Person implements AnecAbility {
-    public RandMan(String name, int age) {
+    public RandMan(String name, int age) throws AgeException {
         super(name, age);
+		if (age < 0 || age > 100)
+			throw new AgeException("У людей не бывает таких возрастов к сож(");
     }
 
-    public RandMan(String name, int age, String greet) {
+    public RandMan(String name, int age, String greet) throws AgeException {
         super(name, age, greet);
+		if (age < 0 || age > 100)
+			throw new AgeException("У людей не бывает таких возрастов к сож(");
     }
 	
 	@Override
