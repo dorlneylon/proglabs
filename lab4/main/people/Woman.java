@@ -1,10 +1,13 @@
 package main.people;
 import main.people.Person;
 import main.interfaces.DoingNothing;
+import java.util.Vector;
 import main.enums.Food;
 import main.exceptions.AgeException;
 
 public class Woman extends Person implements DoingNothing {
+	private Vector<Food> food = new Vector<Food>(3);
+
     public Woman(String name, int age) throws AgeException {
         super(name, age, "за что я женщина?");
 		if (age < 18) {
@@ -50,15 +53,42 @@ public class Woman extends Person implements DoingNothing {
         return true;
     }
 
+	public void cook() {
+		class Cook {
+			public void cook() {
+				if (food.size() < 3) {
+					food.add(Food.pickRandom());
+					message("Я приготовила " + food.lastElement().getName() + ".");
+				} else {
+					message("Я не буду готовить, у меня уже есть 3 блюда.");
+				}
+			}
+			public void available() {
+				if (food.size() > 0) {
+					message("У меня есть:");
+					for (Food f:food)
+					System.out.println(f.getName());
+				} else
+					message("У меня пока что нет еды, ее надо сначала приготовить.");
+			}
+		}
+		Cook cook = new Cook();
+		cook.cook();
+		cook.available();
+	}
+   
     @Override
     protected void ability(Person hungry) {
-		if (!gone) {
-			if (hungry.getAge() < 18) {
-				message("Я не могу дать " + hungry.getName() + " еды, он слишком маленький!");
+		if (food.size() > 0) {
+			message("Вот, " + hungry.getName() + ", есть " + food.firstElement().getName() + ".");
+			hungry.eat(food.firstElement());
+			food.remove(0);
+		} else {
+			message("У меня нет еды, ее надо сначала приготовить.");
+			if (hungry.eaten > 5) {
+				hungry.message("Да не очень-то и хотелось...");
 			} else {
-				Food f = Food.pickRandom();
-				message("Я дала " + hungry.getName() + " " + f.getName() + ".");
-				hungry.eat(f);
+				hungry.message("Блин, а я голоден...");
 			}
 		}
 	}
@@ -85,21 +115,29 @@ public class Woman extends Person implements DoingNothing {
 			gone = true;
 		}
 	}
-   
+
+	public void comeBack() {
+		if (gone) {
+			message("Я вернулась.");
+			gone = false;
+		}
+	}
+
 	@Override
     protected void ability() {
-        if (!gone) message("Я могу приготовить еду, но для этого надо показать, кому.");
+        if (!gone && !sleeps) message("Я могу приготовить еду, но для этого надо показать, кому.");
         else System.out.printf("%s ушла.\n", getName());
     }
     
     @Override
     public void eat(Food f) {
-		if (!gone && !sleeps && this.eaten < 4) {
+		if (!gone && !sleeps && this.eaten < 4 && food.contains(f)) {
 			System.out.printf("%s съела %s. Реакции не будет женщины жоско держут покерфейс лол\n", getName(), f.getName());
 			(this.eaten)++;
+			food.remove(f);
 		} else if (this.eaten >= 4) {
 			message("Я сыта, не буду больше есть.");
-		} else System.out.printf("%s ушла или спит.", getName());
+		} else System.out.printf("%s ушла или спит. А может быть, она еще просто не приготовила эту еду.", getName());
 	}
 
     @Override
@@ -108,11 +146,10 @@ public class Woman extends Person implements DoingNothing {
     }
 
     public void superPower(Person... p) throws AgeException {
-        System.out.printf("%s уложила указанных людей спать, а сама пошла в магазин. Когда вернется - неизвестно.", getName());
+        System.out.printf("%s уложила указанных людей спать, а сама пошла в магазин.", getName());
         for (Person k:p) {
 			if (!(k.equals(new Woman(this.name, this.age)))) k.goSleep();
 			else System.out.printf("Ну, было бы странно, если бы %s уложила себя спать.\n", this.name);
 		}
-        this.gone = true;
     }
 }

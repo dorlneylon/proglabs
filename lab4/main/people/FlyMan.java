@@ -6,6 +6,8 @@ import main.interfaces.Fan;
 import main.exceptions.AgeException;
 
 public class FlyMan extends Person implements AnecAbility {
+	private boolean isHit = false;
+
     public FlyMan() {
         super("Карлсон", 15, "Я Карлсон и я живу на крыше! И еще я умею летать! А ты нет, кст.\nК слову, я умею травить анеки, если потребуется.");
     }
@@ -24,24 +26,42 @@ public class FlyMan extends Person implements AnecAbility {
 	Fan fan = new Fan() {
 		@Override
 		public void switchOn() {
-			System.out.printf("%s начал летать на своей перделке.\n", getName());
+			if (!isHit) {
+				System.out.printf("%s начал летать на своей перделке.\n", getName());
+
+				// with chance of 20% he can fly into wall and sleep
+			
+				if (Math.random() < 0.2) {
+					System.out.printf("%s влетел в стену и ударился головой. Кажется, проснется он нескоро.\n", getName());
+					isHit = true;
+					goSleep();
+				}
+			}
 		}
 		
 		@Override
 		public void switchOff() {
-			System.out.printf("%s приземлился.\n", getName());
+			if (!isHit) {
+				System.out.printf("%s приземлился.\n", getName());
+		
+				if (Math.random() < 0.2) {
+					System.out.printf("В попытках приземлиться, %s влетел в стену, ударился головой и уснул. Кажется, проснется он нескоро. \n", getName());
+					isHit = true;
+					goSleep();
+				}
+			}
 		}
 	};
 
 	@Override
 	public void interact(Person p) {
-		System.out.printf("%s так накормил(-а) %s, что тот(-а) уже ничего не съест.\n", getName(), p.getName());
+		if (!sleeps) System.out.printf("%s так накормил(-а) %s, что тот(-а) уже ничего не съест.\n", getName(), p.getName());
 		p.eaten += 6;
 	}
 
     @Override
     public boolean equals(Person comp) {
-		message("Два дебила с пропеллерами, охренеть.");
+		if (!sleeps) message("Два дебила с пропеллерами, охренеть.");
 		return super.equals(comp);
 	}
 
@@ -73,6 +93,24 @@ public class FlyMan extends Person implements AnecAbility {
     public int hashCode() {
         return getName().hashCode();
     }
+
+	@Override
+	public void wakeUp() {
+		if (isHit) {
+			System.out.printf("%s, видимо, пока не собирается просыпаться\n", getName());
+		} else {
+			super.wakeUp();
+		}
+	}
+
+	@Override
+	public void goSleep() {
+		if (isHit) {
+			System.out.printf("Это уже, видимо, не потребуется\n", getName());
+		} else {
+			super.goSleep();
+		}
+	}
 	
 	public void fly() {
 		fan.switchOn();
