@@ -4,23 +4,11 @@ import main.enums.*;
 
 public class TestFund {
 
-	public TestFund(FlyMan m) throws Throwable {
-		testFlyMan(m);
-	}
-
-	public TestFund(Woman w) throws Throwable {
-		testWoman(w);
-	}
-
-	public TestFund(Kid k) throws Throwable {
-		testKid(k);
-	}
-	
 	public TestFund(Person p) throws Throwable {
 		testBasics(p);
 	}
 
-	public void testBasics(Person p) throws Throwable {
+	public static void testBasics(Person p) throws Throwable {
 		RandMan TestPerson = new RandMan("tester", 15);
 		System.out.println(p.toString());
 		p.greet();
@@ -37,7 +25,7 @@ public class TestFund {
 		p.showAbility(TestPerson);	
 	}
 
-	public void testKid(Kid k) throws Throwable {
+	public static void testKid(Kid k) throws Throwable {
 		testBasics(k);
 
 		Kid TestKid = new Kid("TestKid", 8);
@@ -53,7 +41,7 @@ public class TestFund {
 		k.doArithmetic();
 	}
 
-	public void testWoman(Woman w) throws Throwable {
+	public static void testWoman(Woman w) throws Throwable {
 		testBasics(w);
 		w.cook();
 		w.goAway();
@@ -63,7 +51,7 @@ public class TestFund {
 		w.superPower(w, new RandMan("asdasd", 4));	
 	}
 
-	public void testFlyMan(FlyMan m) throws Throwable {
+	public static void testFlyMan(FlyMan m) throws Throwable {
 		testBasics(m);
 		m.fly();
 		m.land();

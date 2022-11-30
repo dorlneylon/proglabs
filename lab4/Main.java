@@ -7,11 +7,11 @@ public class Main {
         Woman b = new Woman("Фрекен Бок", 19);
         FlyMan q = new FlyMan("Карлссон", 4);
         RandMan rr = new RandMan("Рандом", 8);
-        Person[] persons = {k, b, q, rr};
 
-		for (Person p : persons) {
-			TestFund test = new TestFund(p);
-		}
+		TestFund.testBasics(rr);
+		TestFund.testKid(k);
+		TestFund.testWoman(b);
+		TestFund.testFlyMan(q);
 
 		Woman kek = new Woman("Вумен", 11);
 		RandMan nn = new RandMan("НоуСтракчер", 10101);
