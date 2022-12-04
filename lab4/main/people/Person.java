@@ -5,8 +5,10 @@ public abstract class Person {
     final protected String name, greet;
     final protected int age;
     protected boolean sleeps = false;  
-	protected int eaten = 0;    
-    
+	protected int eaten = 0;
+
+    protected int maxEat;
+
     Person(String name, int age) {
         this.name = name;
         this.age = age;

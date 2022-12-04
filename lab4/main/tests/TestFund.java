@@ -43,7 +43,7 @@ public class TestFund {
 
 	public static void testWoman(Woman w) throws Throwable {
 		testBasics(w);
-		w.cook();
+		for (int i = 0; i < 4; ++i) w.cook();
 		w.goAway();
 		w.doNothing();
 		w.comeBack();

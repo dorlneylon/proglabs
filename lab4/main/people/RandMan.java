@@ -42,7 +42,7 @@ public class RandMan extends Person implements AnecAbility {
 
     @Override
     public void eat(Food f) {
-        System.out.printf("%s съел %s.Он вообще съест что хочешь.\n", getName(), f.getName());
+        System.out.printf("%s съел %s. Он вообще съест что хочешь.\n", getName(), f.getName());
     }
 
     @Override

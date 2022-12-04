@@ -6,9 +6,11 @@ import main.interfaces.KidsBusiness;
 
 public class Kid extends Person implements KidsBusiness {
     Toy[] toys = new Toy[3];
+	private boolean hw_done = false;
 
 	public Kid(String name, int age) throws AgeException {
 		super(name, age, "Привет, это я - " + name + "!");
+		maxEat = 6;
 		if (age > 18 || age < 0) {
 			throw new AgeException("Неподходящий возраст для ребенка!");
 		}
@@ -17,7 +19,7 @@ public class Kid extends Person implements KidsBusiness {
 
 	public Kid(String name, int age, String greet, Toy[] toys) throws AgeException {
 		super(name, age, greet);
-		
+		maxEat = 6;
 		if (age > 18 || age < 0) {
 			throw new AgeException("Неподходящий возраст для ребенка!");
 		}
@@ -30,24 +32,28 @@ public class Kid extends Person implements KidsBusiness {
 	}
 
 	class Homework {
-		public short tasks_left = 10;
+		public short tasks_left = 5;
 		public short a,b;
 		public void doArithmetic() {
+			if (hw_done) {
+				message("Я уже сделал всю домашку!");
+				return;
+			}
 			while (tasks_left --> 0) {
 				a = (short) (Math.random() * 50);
 				b = (short) (Math.random() * 50);
 				message(a + " + " + b + " = " + (a + b));
 				message(a + " - " + b + " = " + (a - b));
 				message(a + " * " + b + " = " + (a * b));
-				try {
-				message(a + " / " + b + " = " + (a / b));
-				} catch (ArithmeticException e) {
+				if (b == 0) {
 					throw new ZeroException();
 				}
+				message(a + " / " + b + " = " + (a / b));
+
+				hw_done = true;
 			}
 		}
 	}
-
 	@Override
 	public void doArithmetic() throws Throwable {
 		Homework m = new Homework();
@@ -108,8 +114,16 @@ public class Kid extends Person implements KidsBusiness {
     protected void ability() {
         if (!sleeps) {
             System.out.print(getName() + " подумал о ");
-            if (Math.round(Math.random()) == 1) System.out.println("фрекен Бок.");
-            else System.out.println("запеканке.");
+            if (Math.round(Math.random()) == 1) {
+				System.out.println("том, что пора бы поспать, что ли...");
+				goSleep();
+			}
+            else {
+				Food x = Food.pickRandom();
+				System.out.println("том, что у него где-то есть " + x.getName() + "...");
+				eat(x);
+			}
+
         } else { System.out.println("Малыш спит."); }
     }    
 
@@ -139,7 +153,7 @@ public class Kid extends Person implements KidsBusiness {
 
     @Override
     public void eat(Food f) {
-		if (!sleeps && this.eaten < 5) {
+		if (!sleeps && this.eaten < maxEat) {
 			System.out.printf("%s съел свою жертву. Ей оказался(-лась) %s.\n", getName(), f.getName());
 			if (Math.round(Math.random()) == 1) message("Вкусно!");
 			else message("Не очень.");

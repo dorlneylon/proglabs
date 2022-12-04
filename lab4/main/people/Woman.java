@@ -10,6 +10,7 @@ public class Woman extends Person implements DoingNothing {
 
     public Woman(String name, int age) throws AgeException {
         super(name, age, "за что я женщина?");
+		maxEat = 4;
 		if (age < 18) {
 			throw new AgeException("Возраст взрослой женщины не может быть меньше 18");
 		}
@@ -18,6 +19,7 @@ public class Woman extends Person implements DoingNothing {
 
 	public Woman(String name, int age, String greet) throws AgeException {
 		super(name, age, greet);
+		maxEat = 4;
 		if (age < 18) {
 			throw new AgeException("Возраст взрослой женщины не может быть меньше 18");
 		}
@@ -26,6 +28,21 @@ public class Woman extends Person implements DoingNothing {
 	@Override
 	public void doNothing() {
 		System.out.println("Я женщина, я ничего не делаю");
+		System.out.println("⠄⣾⣿⡇⢸⣿⣿⣿⠄⠈⣿⣿⣿⣿⠈⣿⡇⢹⣿⣿⣿⡇⡇⢸⣿⣿⡇⣿⣿⣿\n" +
+				"⢠⣿⣿⡇⢸⣿⣿⣿⡇⠄⢹⣿⣿⣿⡀⣿⣧⢸⣿⣿⣿⠁⡇⢸⣿⣿⠁⣿⣿⣿\n" +
+				"⢸⣿⣿⡇⠸⣿⣿⣿⣿⡄⠈⢿⣿⣿⡇⢸⣿⡀⣿⣿⡿⠸⡇⣸⣿⣿⠄⣿⣿⣿\n" +
+				"⢸⣿⡿⠷⠄⠿⠿⠿⠟⠓⠰⠘⠿⣿⣿⡈⣿⡇⢹⡟⠰⠦⠁⠈⠉⠋⠄⠻⢿⣿\n" +
+				"⢨⡑⠶⡏⠛⠐⠋⠓⠲⠶⣭⣤⣴⣦⣭⣥⣮⣾⣬⣴⡮⠝⠒⠂⠂⠘⠉⠿⠖⣬\n" +
+				"⠈⠉⠄⡀⠄⣀⣀⣀⣀⠈⢛⣿⣿⣿⣿⣿⣿⣿⣿⣟⠁⣀⣤⣤⣠⡀⠄⡀⠈⠁\n" +
+				"⠄⠠⣾⡀⣾⣿⣧⣼⣿⡿⢠⣿⣿⣿⣿⣿⣿⣿⣿⣧⣼⣿⣧⣼⣿⣿⢀⣿⡇⠄\n" +
+				"⡀⠄⠻⣷⡘⢿⣿⣿⡿⢣⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣜⢿⣿⣿⡿⢃⣾⠟⢁⠈\n" +
+				"⢃⢻⣶⣬⣿⣶⣬⣥⣶⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣷⣶⣶⣾⣿⣷⣾⣾⢣\n" +
+				"⡄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠘\n" +
+				"⣿⡐⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⢠⢃\n" +
+				"⣿⣷⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⡿⠋⢀⠆⣼\n" +
+				"⣿⣿⣷⡀⠄⠈⠛⢿⣿⣿⣿⣿⣷⣶⣶⣶⣶⣶⣿⣿⣿⣿⣿⠿⠋⠠⠂⢀⣾⣿\n" +
+				"⣿⣿⣿⣧⠄⠄⢵⢠⣈⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⢋⡁⢰⠏⠄⠄⣼⣿⣿\n" +
+				"⢻⣿⣿⣿⡄⢢⠨⠄⣯⠄⠄⣌⣉⠛⠻⠟⠛⢋⣉⣤⠄⢸⡇⣨⣤⠄⢸⣿⣿⣿");
 	}
 
 	@Override
@@ -131,13 +148,13 @@ public class Woman extends Person implements DoingNothing {
     
     @Override
     public void eat(Food f) {
-		if (!gone && !sleeps && this.eaten < 4 && food.contains(f)) {
+		if (!gone && !sleeps && this.eaten < maxEat && food.contains(f)) {
 			System.out.printf("%s съела %s. Реакции не будет женщины жоско держут покерфейс лол\n", getName(), f.getName());
 			(this.eaten)++;
 			food.remove(f);
-		} else if (this.eaten >= 4) {
+		} else if (this.eaten >= maxEat) {
 			message("Я сыта, не буду больше есть.");
-		} else System.out.printf("%s ушла или спит. А может быть, она еще просто не приготовила эту еду.", getName());
+		} else System.out.printf("%s ушла или спит. А может быть, она еще просто не приготовила эту еду.\n", getName());
 	}
 
     @Override

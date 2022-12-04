@@ -7,13 +7,16 @@ import main.exceptions.AgeException;
 
 public class FlyMan extends Person implements AnecAbility {
 	private boolean isHit = false;
+	private boolean flying = false;
 
     public FlyMan() {
         super("Карлсон", 15, "Я Карлсон и я живу на крыше! И еще я умею летать! А ты нет, кст.\nК слову, я умею травить анеки, если потребуется.");
-    }
+    	maxEat = 10;
+	}
 
 	public FlyMan(String name, int age, String greet) throws AgeException {
 		super(name, age, greet);
+		maxEat = 10;
 		if (age < 0 || age > 18) {
 			throw new AgeException("Неподходящий возраст для летающих людей");
 		}	
@@ -21,27 +24,42 @@ public class FlyMan extends Person implements AnecAbility {
 	
 	public FlyMan(String name, int age) {
 		super(name, age, String.format("Я %s, я летаю и травлю байки. Обожаю анекдоты про Штирлица и поручика Ржевского.", name));
+		maxEat = 10;
 	}
 	
 	Fan fan = new Fan() {
 		@Override
 		public void switchOn() {
-			if (!isHit) {
+			if (!isHit && !flying) {
 				System.out.printf("%s начал летать на своей перделке.\n", getName());
 
 				// with chance of 20% he can fly into wall and sleep
 			
 				if (Math.random() < 0.2) {
 					System.out.printf("%s влетел в стену и ударился головой. Кажется, проснется он нескоро.\n", getName());
+					System.out.println("⢿⣿⣿⣿⣭⠹⠛⠛⠛⢿⣿⣿⣿⣿⡿⣿⠷⠶⠿⢻⣿⣛⣦⣙⠻⣿\n" +
+							"⣿⣿⢿⣿⠏⠀⠀⡀⠀⠈⣿⢛⣽⣜⠯⣽⠀⠀⠀⠀⠙⢿⣷⣻⡀⢿\n" +
+							"⠐⠛⢿⣾⣖⣤⡀⠀⢀⡰⠿⢷⣶⣿⡇⠻⣖⣒⣒⣶⣿⣿⡟⢙⣶⣮\n" +
+							"⣤⠀⠀⠛⠻⠗⠿⠿⣯⡆⣿⣛⣿⡿⠿⠮⡶⠼⠟⠙⠊⠁⠀⠸⢣⣿\n" +
+							"⣿⣷⡀⠀⠀⠀⠀⠠⠭⣍⡉⢩⣥⡤⠥⣤⡶⣒⠀⠀⠀⠀⠀⢰⣿⣿\n" +
+							"⣿⣿⡽⡄⠀⠀⠀⢿⣿⣆⣿⣧⢡⣾⣿⡇⣾⣿⡇⠀⠀⠀⠀⣿⡇⠃\n" +
+							"⣿⣿⣷⣻⣆⢄⠀⠈⠉⠉⠛⠛⠘⠛⠛⠛⠙⠛⠁⠀⠀⠀⠀⣿⡇⢸\n" +
+							"⢞⣿⣿⣷⣝⣷⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠛⣿⠈\n" +
+							"⣦⡑⠛⣟⢿⡿⣿⣷⣝⢧⡀⠀⠀⣶⣸⡇⣿⢸⣧⠀⠀⠀⠀⢸⡿⡆\n" +
+							"⣿⣿⣷⣮⣭⣍⡛⠻⢿⣷⠿⣶⣶⣬⣬⣁⣉⣀⣀⣁⡤⢴⣺⣾⣽⡇");
 					isHit = true;
 					goSleep();
 				}
+
+				flying = true;
+			} else if (!isHit) {
+				System.out.printf("%s уже летает.\n", getName());
 			}
 		}
 		
 		@Override
 		public void switchOff() {
-			if (!isHit) {
+			if (!isHit && flying) {
 				System.out.printf("%s приземлился.\n", getName());
 		
 				if (Math.random() < 0.2) {
@@ -49,6 +67,11 @@ public class FlyMan extends Person implements AnecAbility {
 					isHit = true;
 					goSleep();
 				}
+				flying = false;
+			} else if (isHit) {
+				System.out.printf("%s больше ничего не может.\n", getName());
+			} else if (!flying) {
+				System.out.printf("%s и так не летает.\n", getName());
 			}
 		}
 	};
@@ -78,8 +101,8 @@ public class FlyMan extends Person implements AnecAbility {
 
     @Override
     public void eat(Food f) {
-        if (!sleeps && this.eaten < 6) { message("О, еда)"); (this.eaten)++; }
-		else if (!sleeps && this.eaten >= 6) { message("Я сыт."); }
+        if (!sleeps && this.eaten < maxEat) { message("О, еда)"); (this.eaten)++; }
+		else if (!sleeps && this.eaten >= maxEat) { message("Я сыт."); }
         else System.out.printf("%s спит.\n", this.name);
     }
 
@@ -99,7 +122,7 @@ public class FlyMan extends Person implements AnecAbility {
 		if (isHit) {
 			System.out.printf("%s, видимо, пока не собирается просыпаться\n", getName());
 		} else {
-			super.wakeUp();
+			sleeps = false;
 		}
 	}
 
@@ -107,8 +130,8 @@ public class FlyMan extends Person implements AnecAbility {
 	public void goSleep() {
 		if (isHit) {
 			System.out.printf("Это уже, видимо, не потребуется\n", getName());
-		} else {
-			super.goSleep();
+		} else if (!sleeps) {
+			sleeps = true;
 		}
 	}
 	
